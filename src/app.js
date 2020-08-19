@@ -1,5 +1,5 @@
 const express = require('express');
-
+const path= require('path')
 
 require('./db/mongoose')
 const app = express();
@@ -21,6 +21,8 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(userRouter)
 app.use(screamRouter)
+
+app.use(express.static(path.join(__dirname, '../public/social-client/build')))
 
 
 app.listen(port, ()=>{
