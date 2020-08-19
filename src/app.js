@@ -23,10 +23,6 @@ app.use(userRouter)
 app.use(screamRouter)
 
 
-if(process.env.NODE_ENV === 'production') {
-    app.use(express.static('../public/social-client/build'))
-}
-
 app.listen(port, ()=>{
     console.log('Server Started')
 })
