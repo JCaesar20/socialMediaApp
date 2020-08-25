@@ -61,7 +61,7 @@ class Scream extends Component {
                     <ChatIcon color="primary" />
                 </MyButton>
                 <span>{commentCount} Comments</span>
-                <ScreamDialog screamId={_id} userHandle={userHandle} openDialog={this.props.openDialog}/>
+                <ScreamDialog screamId={_id} userHandle={owner} openDialog={this.props.openDialog}/>
 
                 </CardContent>
               

@@ -134,7 +134,8 @@ router.get("/scream/:screamId/like", auth, async (req, res) => {
    
     scream = await Scream.findByIdAndUpdate(req.params.screamId,{likeCount: ++scream.likeCount})
     scream = await Scream.findById(req.params.screamId);
-
+    await scream.populate("comments").execPopulate();
+    const screamObject = scream.toObject();
     const like = new Like({screamID: req.params.screamId,userHandle: req.user.userHandle})
 
     await like.save();
@@ -148,7 +149,10 @@ router.get("/scream/:screamId/like", auth, async (req, res) => {
     })
     await notification.save();
 
-    res.status(200).send({like,notification,scream});
+    res.status(200).send({like,notification,scream:{
+      ...screamObject,
+      comments: [...scream.comments]
+    }});
   } catch (e) {
     console.log(e)
     res.status(400).send();
@@ -165,11 +169,15 @@ router.get("/scream/:screamId/unlike", auth, async (req, res) => {
 
     scream = await Scream.findByIdAndUpdate(req.params.screamId,{likeCount: --scream.likeCount})
     scream = await Scream.findById(req.params.screamId);
-
+    await scream.populate("comments").execPopulate();
+    const screamObject = scream.toObject();
     const like = await Like.findOneAndDelete({screamID:req.params.screamId,userHandle: req.user.userHandle})
     const notification = await Notification.findOneAndDelete({screamID:req.params.screamId,sender: req.user.userHandle,type:'like'})
     
-    res.status(200).send({like,notification,scream});
+    res.status(200).send({like,notification,scream:{
+      ...screamObject,
+      comments: [...scream.comments]
+    }});
   } catch (e) {
     res.status(400).send();
   }

@@ -23,7 +23,7 @@ class Comments extends Component {
         const {comments,classes} = this.props;
         return (
             <Grid container>
-                {comments.map((comment,index) =>  (
+                {comments && comments.map((comment,index) =>  (
                     <Fragment key={comment.createdAt}>
                         {index !== 0 &&( <hr className={classes.invisibleSeparator} />)}
                         <Grid item sm={12}>
